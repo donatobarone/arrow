@@ -46,6 +46,9 @@ type Server interface {
 	// RegisterFlightService sets up the handler for the Flight Endpoints as per
 	// normal Grpc setups
 	RegisterFlightService(*FlightServiceService)
+
+	// Returns the grpc service
+	Server() *grpc.Server
 }
 
 type CustomServerMiddleware interface {
@@ -186,6 +189,10 @@ func (s *server) RegisterFlightService(svc *FlightServiceService) {
 		svc.Handshake = s.handshake
 	}
 	RegisterFlightServiceService(s.server, svc)
+}
+
+func (s *server) Server() *grpc.Server {
+	return s.server
 }
 
 func (s *server) Shutdown() {
