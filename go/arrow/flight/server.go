@@ -73,6 +73,8 @@ type Server interface {
 	// RegisterFlightService sets up the handler for the Flight Endpoints as per
 	// normal Grpc setups
 	RegisterFlightService(FlightServer)
+	// Returns the grpc service
+	Server() *grpc.Server
 }
 
 // BaseFlightServer is the base flight server implementation and must be
@@ -235,6 +237,10 @@ func (s *server) Serve() error {
 
 func (s *server) RegisterFlightService(svc FlightServer) {
 	flight.RegisterFlightServiceServer(s.server, svc)
+}
+
+func (s *server) Server() *grpc.Server {
+	return s.server
 }
 
 func (s *server) Shutdown() {
