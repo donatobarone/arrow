@@ -49,6 +49,9 @@ type Server interface {
 
 	// Returns the grpc service
 	Server() *grpc.Server
+
+	// Add net listener
+	Listener() *net.Listener
 }
 
 type CustomServerMiddleware interface {
@@ -193,6 +196,10 @@ func (s *server) RegisterFlightService(svc *FlightServiceService) {
 
 func (s *server) Server() *grpc.Server {
 	return s.server
+}
+
+func (s *server) Listener() *net.Listener {
+	return &s.lis
 }
 
 func (s *server) Shutdown() {
